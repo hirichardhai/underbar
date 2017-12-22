@@ -426,7 +426,7 @@
 
       it('should produce a brand new array instead of modifying the input array', function() {
         var numbers = [1, 2, 3];
-        var mappedNumbers = _.map(numbers, function(num) {
+        var mappedNumbers = numbers.map(function(num) {
           return num;
         });
 
@@ -449,8 +449,18 @@
           { name: 'moe', age: 30 },
           { name: 'curly', age: 50 }
         ];
-
-        expect(_.pluck(people, 'name')).to.eql(['moe', 'curly']);
+        function newPluck(arr, name) {
+        	var newArr = [];
+        	for (var i = 0; i < arr.length; i++) {
+        		for (var key in arr[i]) {
+        			if (key == name) {
+        			newArr.push(arr[i].name);
+	        		}
+        		}
+        	}
+        	return newArr;
+        }
+        expect(newPluck(people, 'name')).to.eql(['moe', 'curly']);
       });
 
       it('should not modify the original array', function() {
