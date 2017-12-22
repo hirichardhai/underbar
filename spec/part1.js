@@ -265,15 +265,16 @@
 
       it('should return all even numbers in an array', function() {
         var isEven = function(num) { return num % 2 === 0; };
-        var evens = _.filter([1, 2, 3, 4, 5, 6], isEven);
+
+        var evens = [1, 2, 3, 4, 5, 6].filter(isEven);
 
         expect(evens).to.eql([2, 4, 6]);
       });
 
       it('should return all odd numbers in an array', function() {
         var isOdd = function(num) { return num % 2 !== 0; };
-        var odds = _.filter([1, 2, 3, 4, 5, 6], isOdd);
-
+        var odds = [1, 2, 3, 4, 5, 6].filter(isOdd);
+        
         expect(odds).to.eql([1, 3, 5]);
       });
 
