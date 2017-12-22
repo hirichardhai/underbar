@@ -109,7 +109,7 @@
         var letters = ['a', 'b', 'c'];
         var iterations = [];
 
-        letters.forEach(function(item) {
+        letters.myForEach(function(item) {
         	iterations.push(item);
         });
 
@@ -120,7 +120,7 @@
         var letters = ['a', 'b', 'c'];
         var iterations = [];
 
-        letters.forEach(function(letter, index) {
+        letters.myForEach(function(letter, index) {
           iterations.push([letter, index]);
         });
 
@@ -135,7 +135,7 @@
         var letters = ['a', 'b', 'c'];
         var iterations = [];
 
-        letters.forEach(function(letter, index, collection) {
+        letters.myForEach(function(letter, index, collection) {
           iterations.push([letter, index, collection]);
         });
 
@@ -164,7 +164,7 @@
 
         function returnObjectKeys(obj) {
         	var keyArray = Object.keys(obj)
-        	keyArray.map(function(item) {
+        	keyArray.myMap(function(item) {
         		return iterations.push(obj[item]);
         	})
         }
@@ -181,7 +181,7 @@
         function test(obj) {
         	var keyArray = Object.keys(obj)
 
-        	keyArray.forEach(function(item) {
+        	keyArray.myForEach(function(item) {
         		return iterations.push([obj[item], item]);
         	});
         }
@@ -266,14 +266,14 @@
       it('should return all even numbers in an array', function() {
         var isEven = function(num) { return num % 2 === 0; };
 
-        var evens = [1, 2, 3, 4, 5, 6].filter(isEven);
+        var evens = [1, 2, 3, 4, 5, 6].myFilter(isEven);
 
         expect(evens).to.eql([2, 4, 6]);
       });
 
       it('should return all odd numbers in an array', function() {
         var isOdd = function(num) { return num % 2 !== 0; };
-        var odds = [1, 2, 3, 4, 5, 6].filter(isOdd);
+        var odds = [1, 2, 3, 4, 5, 6].myFilter(isOdd);
 
         expect(odds).to.eql([1, 3, 5]);
       });
@@ -282,7 +282,7 @@
         var isOdd = function(num) { return num % 2 !== 0; };
         var numbers = [1, 2, 3, 4, 5, 6];
 
-        var evens = numbers.filter(isOdd);
+        var evens = numbers.myFilter(isOdd);
 
         expect(evens).to.not.equal(numbers);
       });
@@ -296,14 +296,14 @@
 
       it('should reject all even numbers', function() {
         var isOdd = function(num) { return num % 2 !== 0; };
-        var odds = [1, 2, 3, 4, 5, 6].filter(isOdd);
+        var odds = [1, 2, 3, 4, 5, 6].myFilter(isOdd);
 
         expect(odds).to.eql([1, 3, 5]);
       });
 
       it('should reject all odd numbers', function() {
         var isEven = function(num) { return num % 2 === 0; };
-        var evens = [1, 2, 3, 4, 5, 6].filter(isEven);
+        var evens = [1, 2, 3, 4, 5, 6].myFilter(isEven);
 
         expect(evens).to.eql([2, 4, 6]);
       });
@@ -379,7 +379,7 @@
         }
 
         function returnUniqueIteratedArr(arr, unique, iterator) {
-        	var iteratedArr = arr.map(iterator);
+        	var iteratedArr = arr.myMap(iterator);
         	var numberOfUnique = unique(iteratedArr).length;
         	var uniqueArr = [arr[0]];
         	var booleanHolder = iteratedArr[0];
@@ -445,7 +445,7 @@
       });
 
       it('should apply a function to every value in an array', function() {
-        var doubledNumbers = [1, 2, 3].map(function(num) {
+        var doubledNumbers = [1, 2, 3].myMap(function(num) {
           return num * 2;
         });
 
@@ -454,7 +454,7 @@
 
       it('should produce a brand new array instead of modifying the input array', function() {
         var numbers = [1, 2, 3];
-        var mappedNumbers = numbers.map(function(num) {
+        var mappedNumbers = numbers.myMap(function(num) {
           return num;
         });
 
@@ -550,7 +550,7 @@
 
       it('should invoke the iterator function with arguments (memo, item) in that order', function() {
         var memoInCallback, itemInCallback;
-        ['item'].reduce(function(memo, item) {
+        ['item'].myReduce(function(memo, item) {
 	       memoInCallback = memo;
 	       itemInCallback = item;
         }, 'memo');
@@ -585,7 +585,7 @@
       });
 
       it('should pass every item of the array into the iterator if a memo is passed in', function() {
-        var result = [1,2,3].reduce(function(memo, item) {
+        var result = [1,2,3].myReduce(function(memo, item) {
           return memo - item;
         }, 10);
 
@@ -594,7 +594,7 @@
 
       it('should accept falsy values as a valid memo', function() {
         // Be careful how you check if a memo has been passed in
-        var result = [1,2,3].reduce(function(memo, item) {
+        var result = [1,2,3].myReduce(function(memo, item) {
           return memo * item;
         }, 0);
 
@@ -602,7 +602,7 @@
       });
 
       it('should set memo to be the first item of the array if no memo is passed in', function() {
-        var result = [1,2,3].reduce(function(memo) {
+        var result = [1,2,3].myReduce(function(memo) {
           return memo;
         });
 
@@ -611,7 +611,7 @@
 
 
       it('should pass the second item of the array into the iterator first if a memo is not passed in', function() {
-        var result = [3,2,1].reduce(function(memo, item) {
+        var result = [3,2,1].myReduce(function(memo, item) {
           return memo - item;
         });
 
@@ -635,3 +635,39 @@
     });
   }
 }());
+
+Array.prototype.myForEach = function(callback) {
+  	for (var i = 0; i < this.length; i++) {
+  		callback(this[i], i, this);
+	}
+};
+
+Array.prototype.myMap = function(callback) {
+    arr = [];
+    for (var i = 0; i < this.length; i++) {
+        arr.push(callback(this[i], i, this));
+    }
+    return arr;
+}
+
+Array.prototype.myFilter = function(callback, context) {
+	arr = [];
+	for (var i = 0; i < this.length; i++) {
+	    if (callback.call(context, this[i], i, this)) {
+	        arr.push(this[i]);
+	    }
+	}
+	return arr;
+};
+
+Array.prototype.myReduce = function(callback, initialVal) {
+    var accu = (initialVal === undefined) ? undefined : initialVal;
+    for (var i = 0; i < this.length; i++) {
+        if (accu !== undefined) {
+            accu = callback.call(undefined, accu, this[i], i, this);
+        } else {
+            accu = this[i];
+        }
+    }
+    return accu;
+};
