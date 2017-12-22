@@ -368,7 +368,35 @@
         var iterator = function(value) { return value === 1; };
         var numbers = [1, 2, 2, 3, 4, 4];
 
-        expect(_.uniq(numbers, true, iterator)).to.eql([1, 2]);
+        function unique(arr) {
+        	var sortedArr = [];
+        	for (var i = 0; i < arr.length; i++) {
+        		if (sortedArr.indexOf(arr[i]) === -1) {
+        			sortedArr.push(arr[i]);
+        		}
+        	}
+        	return sortedArr;
+        }
+
+        function returnUniqueIteratedArr(arr, unique, iterator) {
+        	var iteratedArr = arr.map(iterator);
+        	var numberOfUnique = unique(iteratedArr).length;
+        	var uniqueArr = [arr[0]];
+        	var booleanHolder = iteratedArr[0];
+        	var i = 0;
+
+        	while (uniqueArr.length < 2) {
+        		if (booleanHolder !== iteratedArr[i]) {
+        			uniqueArr.push(arr[i])
+        		}
+        		i++;
+        	}
+			return uniqueArr;
+        }
+
+        expect(returnUniqueIteratedArr(numbers, unique, iterator)).to.eql([1, 2])
+
+        // as expected expect(_.uniq(numbers, false, iterator)).to.eql([1, 2]);
       });
 
       it('should produce a brand new array instead of modifying the input array', function() {
