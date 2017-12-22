@@ -109,8 +109,8 @@
         var letters = ['a', 'b', 'c'];
         var iterations = [];
 
-        _.each(letters, function(letter) {
-          iterations.push(letter);
+        letters.forEach(function(item) {
+        	iterations.push(item);
         });
 
         expect(iterations).to.eql(['a','b','c']);
@@ -120,7 +120,7 @@
         var letters = ['a', 'b', 'c'];
         var iterations = [];
 
-        _.each(letters, function(letter, index) {
+        letters.forEach(function(letter, index) {
           iterations.push([letter, index]);
         });
 
@@ -135,7 +135,7 @@
         var letters = ['a', 'b', 'c'];
         var iterations = [];
 
-        _.each(letters, function(letter, index, collection) {
+        letters.forEach(function(letter, index, collection) {
           iterations.push([letter, index, collection]);
         });
 
