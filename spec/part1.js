@@ -352,14 +352,23 @@
       it('should return all unique values contained in an unsorted array', function() {
         var numbers = [1, 2, 1, 3, 1, 4];
 
-        expect(_.uniq(numbers)).to.eql([1, 2, 3, 4]);
+        function unique(arr) {
+        	var sortedArr = [];
+        	for (var i = 0; i < arr.length; i++) {
+        		if (sortedArr.indexOf(arr[i]) === -1) {
+        			sortedArr.push(arr[i]);
+        		}
+        	}
+        	return sortedArr;
+        }
+        expect(unique(numbers)).to.eql([1, 2, 3, 4]);
       });
 
       it('should handle iterators that work with a sorted array', function() {
         var iterator = function(value) { return value === 1; };
         var numbers = [1, 2, 2, 3, 4, 4];
 
-        expect(_.uniq(FILL_ME_IN)).to.eql([1, 2]);
+        expect(_.uniq(numbers, true, iterator)).to.eql([1, 2]);
       });
 
       it('should produce a brand new array instead of modifying the input array', function() {
@@ -408,7 +417,7 @@
       });
 
       it('should apply a function to every value in an array', function() {
-        var doubledNumbers = _.map([1, 2, 3], function(num) {
+        var doubledNumbers = [1, 2, 3].map(function(num) {
           return num * 2;
         });
 
