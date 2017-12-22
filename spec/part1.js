@@ -162,9 +162,14 @@
         var letters = {d: 'dog', e: 'elephant', f: 'flotsam'};
         var iterations = [];
 
-        _.each(letters, function(value) {
-          iterations.push(value);
-        });
+        function returnObjectKeys(obj) {
+        	var keyArray = Object.keys(obj)
+        	keyArray.map(function(item) {
+        		return iterations.push(obj[item]);
+        	})
+        }
+
+        returnObjectKeys(letters);
 
         expect(iterations).to.eql(['dog', 'elephant', 'flotsam']);
       });
@@ -173,9 +178,15 @@
         var letters = {d: 'dog', e: 'elephant', f: 'flotsam'};
         var iterations = [];
 
-        _.each(letters, function(value, property) {
-          iterations.push([value, property]);
-        });
+        function test(obj) {
+        	var keyArray = Object.keys(obj)
+
+        	keyArray.forEach(function(item) {
+        		return iterations.push([obj[item], item]);
+        	});
+        }
+
+        test(letters);
 
         expect(iterations).to.eql([
           ['dog', 'd'],
@@ -188,9 +199,9 @@
         var letters = {d: 'dog', e: 'elephant', f: 'flotsam'};
         var iterations = [];
 
-        _.each(letters, function(value, property, object) {
-          iterations.push([value, property, object]);
-        });
+        for (var key in letters) {
+        	iterations.push([letters[key], key, letters])
+        }
 
         expect(iterations).to.eql([
           ['dog', 'd', letters],
@@ -203,9 +214,9 @@
         var dresser = { length: 39, width: 79, height: 127};
         var iterations = [];
 
-        _.each(dresser, function(value, property, object) {
-          iterations.push([value, property, object]);
-        });
+        for (var key in dresser) {
+        	iterations.push([dresser[key], key, dresser])
+        }
 
         expect(iterations).to.eql([
           [39, 'length', dresser],
