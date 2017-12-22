@@ -522,12 +522,11 @@
 
       it('should invoke the iterator function with arguments (memo, item) in that order', function() {
         var memoInCallback, itemInCallback;
-
-        _.reduce(['item'], function(memo, item) {
-          memoInCallback = memo;
-          itemInCallback = item;
+        ['item'].reduce(function(memo, item) {
+	       memoInCallback = memo;
+	       itemInCallback = item;
         }, 'memo');
-
+   
         expect(memoInCallback).to.equal('memo');
         expect(itemInCallback).to.equal('item');
       });
@@ -535,10 +534,9 @@
       it('should pass items of the array into the iterator from left to right', function() {
         var orderTraversed = [];
 
-        _.reduce([1,2,3,4], function(memo, item) {
-          orderTraversed.push(item);
-          return memo;
-        }, 10);
+        [1,2,3,4].reduce(function(accu, value) {
+        	orderTraversed.push(value);
+        }, 0);
 
         expect(orderTraversed).to.eql([1,2,3,4]);
       });
@@ -554,7 +552,7 @@
           }
         };
 
-        var total = _.reduce([1,1,2], returnFalsy);
+        var total = [1,1,2].reduce(returnFalsy);
         expect(total).to.equal(3);
       });
 
