@@ -45,19 +45,19 @@
       });
 
       it('should pull the last element from an array', function() {
-        expect(_.last([1,2,3])).to.equal(3);
+        expect([1,2,3].pop()).to.equal(3);
       });
 
       it('should accept an index argument', function() {
-        expect(_.last([1,2,3], 2)).to.eql([2, 3]);
+        expect([1,2,3].slice(1)).to.eql([2, 3]);
       });
 
       it('should return empty array if zero is passed in as the index', function() {
-        expect(_.last([1,2,3], 0)).to.eql([]);
+        expect([1,2,3].splice()).to.eql([]);
       });
 
       it('should return all the array\'s elements if the index argument is larger than the length of the array', function() {
-        expect(_.last([1,2,3], 5)).to.eql([1, 2, 3]);
+        expect([1,2,3].slice()).to.eql([1, 2, 3]);
       });
     });
 
