@@ -274,14 +274,15 @@
       it('should return all odd numbers in an array', function() {
         var isOdd = function(num) { return num % 2 !== 0; };
         var odds = [1, 2, 3, 4, 5, 6].filter(isOdd);
-        
+
         expect(odds).to.eql([1, 3, 5]);
       });
 
       it('should produce a brand new array instead of modifying the input array', function() {
         var isOdd = function(num) { return num % 2 !== 0; };
         var numbers = [1, 2, 3, 4, 5, 6];
-        var evens = _.filter(numbers, isOdd);
+
+        var evens = numbers.filter(isOdd);
 
         expect(evens).to.not.equal(numbers);
       });
@@ -294,15 +295,15 @@
       });
 
       it('should reject all even numbers', function() {
-        var isEven = function(num) { return num % 2 === 0; };
-        var odds = _.reject([1, 2, 3, 4, 5, 6], isEven);
+        var isOdd = function(num) { return num % 2 !== 0; };
+        var odds = [1, 2, 3, 4, 5, 6].filter(isOdd);
 
         expect(odds).to.eql([1, 3, 5]);
       });
 
       it('should reject all odd numbers', function() {
-        var isOdd = function(num) { return num % 2 !== 0; };
-        var evens = _.reject([1, 2, 3, 4, 5, 6], isOdd);
+        var isEven = function(num) { return num % 2 === 0; };
+        var evens = [1, 2, 3, 4, 5, 6].filter(isEven);
 
         expect(evens).to.eql([2, 4, 6]);
       });
