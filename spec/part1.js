@@ -235,13 +235,13 @@
       it('should find 40 in the list', function() {
         var numbers = [10, 20, 30, 40, 50];
 
-        expect(_.indexOf(numbers, 40)).to.equal(3);
+        expect(numbers.indexOf(40)).to.equal(3);
       });
 
       it('should be able to compute indexOf even when the native function is undefined', function() {
         var numbers = [10, 20, 30];
 
-        expect(_.indexOf(numbers, 20)).to.equal(1);
+        expect(numbers.indexOf(20)).to.equal(1);
       });
 
       it('returns -1 when the target cannot be found not in the list', function() {
@@ -253,7 +253,7 @@
       it('returns the first index that the target can be found at when there are multiple matches', function() {
         var numbers = [1, 40, 40, 40, 40, 40, 40, 40, 50, 60, 70];
 
-        expect(_.indexOf(numbers, 40)).to.equal(1);
+        expect(numbers.indexOf(40)).to.equal(1);
       });
     });
 
