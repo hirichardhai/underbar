@@ -557,7 +557,7 @@
       });
 
       it('should pass every item of the array into the iterator if a memo is passed in', function() {
-        var result = _.reduce([1,2,3], function(memo, item) {
+        var result = [1,2,3].reduce(function(memo, item) {
           return memo - item;
         }, 10);
 
@@ -566,7 +566,7 @@
 
       it('should accept falsy values as a valid memo', function() {
         // Be careful how you check if a memo has been passed in
-        var result = _.reduce([1,2,3], function(memo, item) {
+        var result = [1,2,3].reduce(function(memo, item) {
           return memo * item;
         }, 0);
 
@@ -574,7 +574,7 @@
       });
 
       it('should set memo to be the first item of the array if no memo is passed in', function() {
-        var result = _.reduce([1,2,3], function(memo) {
+        var result = [1,2,3].reduce(function(memo) {
           return memo;
         });
 
@@ -583,7 +583,7 @@
 
 
       it('should pass the second item of the array into the iterator first if a memo is not passed in', function() {
-        var result = _.reduce([3,2,1], function(memo, item) {
+        var result = [3,2,1].reduce(function(memo, item) {
           return memo - item;
         });
 
