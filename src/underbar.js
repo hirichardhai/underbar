@@ -137,7 +137,6 @@
     } else {
       return testIterator(array, isSorted, iterator);
     }
-
   };
 
 
@@ -193,13 +192,16 @@
   //     return total + number * number;
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
-  _.reduce = function(collection, iterator, accumulator) {
-    var accu = (accumulator === undefined) ? undefined : accumulator;
-    for (var k = 0; k < collection.length; k++) {
-      if (accu !== undefined) {
-        accu = iterator.call(undefined, accu, collection[k], k, collection);
-      } else {
-        accu = collection[k];
+_.reduce = function(collection, iterator, accumulator) {
+    if (accumulator !== undefined) {
+      var accu = accumulator;
+      for (var k = 0; k < collection.length; k++) {
+          accu = iterator.call(undefined, accu, collection[k], k, collection);
+      }
+    } else {
+      var accu = collection[0]
+      for (var k = 1; k < collection.length; k++) {
+          accu = iterator.call(undefined, accu, collection[k], k, collection);
       }
     }
     return accu;
@@ -221,6 +223,8 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    return _.reduce
+
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
