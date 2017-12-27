@@ -10,10 +10,10 @@
 
       it('should return whatever value is passed into it', function() {
         var uniqueObject = {};
-        expect(1).to.equal(1);
-        expect('string').to.equal('string');
-        expect(false).to.be.false;
-        expect(uniqueObject).to.equal(uniqueObject);
+        expect(_.identity(1)).to.equal(1);
+        expect(_.identity('string')).to.equal('string');
+        expect(_.identity(false)).to.be.false;
+        expect(_.identity(uniqueObject)).to.equal(uniqueObject);
       });
     });
 
@@ -45,19 +45,19 @@
       });
 
       it('should pull the last element from an array', function() {
-        expect([1,2,3].pop()).to.equal(3);
+        expect(_.last([1,2,3])).to.equal(3);
       });
 
       it('should accept an index argument', function() {
-        expect([1,2,3].slice(1)).to.eql([2, 3]);
+        expect(_.last([1,2,3], 2)).to.eql([2, 3]);
       });
 
       it('should return empty array if zero is passed in as the index', function() {
-        expect([1,2,3].splice()).to.eql([]);
+        expect(_.last([1,2,3], 0)).to.eql([]);
       });
 
       it('should return all the array\'s elements if the index argument is larger than the length of the array', function() {
-        expect([1,2,3].slice()).to.eql([1, 2, 3]);
+        expect(_.last([1,2,3], 5)).to.eql([1, 2, 3]);
       });
     });
 
@@ -109,8 +109,8 @@
         var letters = ['a', 'b', 'c'];
         var iterations = [];
 
-        letters.myForEach(function(item) {
-        	iterations.push(item);
+        _.each(letters, function(letter) {
+          iterations.push(letter);
         });
 
         expect(iterations).to.eql(['a','b','c']);
@@ -120,7 +120,7 @@
         var letters = ['a', 'b', 'c'];
         var iterations = [];
 
-        letters.myForEach(function(letter, index) {
+        _.each(letters, function(letter, index) {
           iterations.push([letter, index]);
         });
 
@@ -135,7 +135,7 @@
         var letters = ['a', 'b', 'c'];
         var iterations = [];
 
-        letters.myForEach(function(letter, index, collection) {
+        _.each(letters, function(letter, index, collection) {
           iterations.push([letter, index, collection]);
         });
 
@@ -162,14 +162,9 @@
         var letters = {d: 'dog', e: 'elephant', f: 'flotsam'};
         var iterations = [];
 
-        function returnObjectKeys(obj) {
-        	var keyArray = Object.keys(obj)
-        	keyArray.myMap(function(item) {
-        		return iterations.push(obj[item]);
-        	})
-        }
-
-        returnObjectKeys(letters);
+        _.each(letters, function(value) {
+          iterations.push(value);
+        });
 
         expect(iterations).to.eql(['dog', 'elephant', 'flotsam']);
       });
@@ -178,15 +173,9 @@
         var letters = {d: 'dog', e: 'elephant', f: 'flotsam'};
         var iterations = [];
 
-        function test(obj) {
-        	var keyArray = Object.keys(obj)
-
-        	keyArray.myForEach(function(item) {
-        		return iterations.push([obj[item], item]);
-        	});
-        }
-
-        test(letters);
+        _.each(letters, function(value, property) {
+          iterations.push([value, property]);
+        });
 
         expect(iterations).to.eql([
           ['dog', 'd'],
@@ -199,9 +188,9 @@
         var letters = {d: 'dog', e: 'elephant', f: 'flotsam'};
         var iterations = [];
 
-        for (var key in letters) {
-        	iterations.push([letters[key], key, letters])
-        }
+        _.each(letters, function(value, property, object) {
+          iterations.push([value, property, object]);
+        });
 
         expect(iterations).to.eql([
           ['dog', 'd', letters],
@@ -214,9 +203,9 @@
         var dresser = { length: 39, width: 79, height: 127};
         var iterations = [];
 
-        for (var key in dresser) {
-        	iterations.push([dresser[key], key, dresser])
-        }
+        _.each(dresser, function(value, property, object) {
+          iterations.push([value, property, object]);
+        });
 
         expect(iterations).to.eql([
           [39, 'length', dresser],
@@ -235,13 +224,13 @@
       it('should find 40 in the list', function() {
         var numbers = [10, 20, 30, 40, 50];
 
-        expect(numbers.indexOf(40)).to.equal(3);
+        expect(_.indexOf(numbers, 40)).to.equal(3);
       });
 
       it('should be able to compute indexOf even when the native function is undefined', function() {
         var numbers = [10, 20, 30];
 
-        expect(numbers.indexOf(20)).to.equal(1);
+        expect(_.indexOf(numbers, 20)).to.equal(1);
       });
 
       it('returns -1 when the target cannot be found not in the list', function() {
@@ -253,7 +242,7 @@
       it('returns the first index that the target can be found at when there are multiple matches', function() {
         var numbers = [1, 40, 40, 40, 40, 40, 40, 40, 50, 60, 70];
 
-        expect(numbers.indexOf(40)).to.equal(1);
+        expect(_.indexOf(numbers, 40)).to.equal(1);
       });
     });
 
@@ -265,15 +254,14 @@
 
       it('should return all even numbers in an array', function() {
         var isEven = function(num) { return num % 2 === 0; };
-
-        var evens = [1, 2, 3, 4, 5, 6].myFilter(isEven);
+        var evens = _.filter([1, 2, 3, 4, 5, 6], isEven);
 
         expect(evens).to.eql([2, 4, 6]);
       });
 
       it('should return all odd numbers in an array', function() {
         var isOdd = function(num) { return num % 2 !== 0; };
-        var odds = [1, 2, 3, 4, 5, 6].myFilter(isOdd);
+        var odds = _.filter([1, 2, 3, 4, 5, 6], isOdd);
 
         expect(odds).to.eql([1, 3, 5]);
       });
@@ -281,8 +269,7 @@
       it('should produce a brand new array instead of modifying the input array', function() {
         var isOdd = function(num) { return num % 2 !== 0; };
         var numbers = [1, 2, 3, 4, 5, 6];
-
-        var evens = numbers.myFilter(isOdd);
+        var evens = _.filter(numbers, isOdd);
 
         expect(evens).to.not.equal(numbers);
       });
@@ -295,15 +282,15 @@
       });
 
       it('should reject all even numbers', function() {
-        var isOdd = function(num) { return num % 2 !== 0; };
-        var odds = [1, 2, 3, 4, 5, 6].myFilter(isOdd);
+        var isEven = function(num) { return num % 2 === 0; };
+        var odds = _.reject([1, 2, 3, 4, 5, 6], isEven);
 
         expect(odds).to.eql([1, 3, 5]);
       });
 
       it('should reject all odd numbers', function() {
-        var isEven = function(num) { return num % 2 === 0; };
-        var evens = [1, 2, 3, 4, 5, 6].myFilter(isEven);
+        var isOdd = function(num) { return num % 2 !== 0; };
+        var evens = _.reject([1, 2, 3, 4, 5, 6], isOdd);
 
         expect(evens).to.eql([2, 4, 6]);
       });
@@ -352,51 +339,14 @@
       it('should return all unique values contained in an unsorted array', function() {
         var numbers = [1, 2, 1, 3, 1, 4];
 
-        function unique(arr) {
-        	var sortedArr = [];
-        	for (var i = 0; i < arr.length; i++) {
-        		if (sortedArr.indexOf(arr[i]) === -1) {
-        			sortedArr.push(arr[i]);
-        		}
-        	}
-        	return sortedArr;
-        }
-        expect(unique(numbers)).to.eql([1, 2, 3, 4]);
+        expect(_.uniq(numbers)).to.eql([1, 2, 3, 4]);
       });
 
       it('should handle iterators that work with a sorted array', function() {
         var iterator = function(value) { return value === 1; };
         var numbers = [1, 2, 2, 3, 4, 4];
 
-        function unique(arr) {
-        	var sortedArr = [];
-        	for (var i = 0; i < arr.length; i++) {
-        		if (sortedArr.indexOf(arr[i]) === -1) {
-        			sortedArr.push(arr[i]);
-        		}
-        	}
-        	return sortedArr;
-        }
-
-        function returnUniqueIteratedArr(arr, unique, iterator) {
-        	var iteratedArr = arr.myMap(iterator);
-        	var numberOfUnique = unique(iteratedArr).length;
-        	var uniqueArr = [arr[0]];
-        	var booleanHolder = iteratedArr[0];
-        	var i = 0;
-
-        	while (uniqueArr.length < 2) {
-        		if (booleanHolder !== iteratedArr[i]) {
-        			uniqueArr.push(arr[i])
-        		}
-        		i++;
-        	}
-			return uniqueArr;
-        }
-
-        expect(returnUniqueIteratedArr(numbers, unique, iterator)).to.eql([1, 2])
-
-        // as expected expect(_.uniq(numbers, false, iterator)).to.eql([1, 2]);
+        expect(_.uniq(FILL_ME_IN)).to.eql([1, 2]);
       });
 
       it('should produce a brand new array instead of modifying the input array', function() {
@@ -445,7 +395,7 @@
       });
 
       it('should apply a function to every value in an array', function() {
-        var doubledNumbers = [1, 2, 3].myMap(function(num) {
+        var doubledNumbers = _.map([1, 2, 3], function(num) {
           return num * 2;
         });
 
@@ -454,7 +404,7 @@
 
       it('should produce a brand new array instead of modifying the input array', function() {
         var numbers = [1, 2, 3];
-        var mappedNumbers = numbers.myMap(function(num) {
+        var mappedNumbers = _.map(numbers, function(num) {
           return num;
         });
 
@@ -477,18 +427,8 @@
           { name: 'moe', age: 30 },
           { name: 'curly', age: 50 }
         ];
-        function newPluck(arr, name) {
-        	var newArr = [];
-        	for (var i = 0; i < arr.length; i++) {
-        		for (var key in arr[i]) {
-        			if (key == name) {
-        			newArr.push(arr[i].name);
-	        		}
-        		}
-        	}
-        	return newArr;
-        }
-        expect(newPluck(people, 'name')).to.eql(['moe', 'curly']);
+
+        expect(_.pluck(people, 'name')).to.eql(['moe', 'curly']);
       });
 
       it('should not modify the original array', function() {
@@ -550,11 +490,12 @@
 
       it('should invoke the iterator function with arguments (memo, item) in that order', function() {
         var memoInCallback, itemInCallback;
-        ['item'].myReduce(function(memo, item) {
-	       memoInCallback = memo;
-	       itemInCallback = item;
+
+        _.reduce(['item'], function(memo, item) {
+          memoInCallback = memo;
+          itemInCallback = item;
         }, 'memo');
-   
+
         expect(memoInCallback).to.equal('memo');
         expect(itemInCallback).to.equal('item');
       });
@@ -562,9 +503,10 @@
       it('should pass items of the array into the iterator from left to right', function() {
         var orderTraversed = [];
 
-        [1,2,3,4].reduce(function(accu, value) {
-        	orderTraversed.push(value);
-        }, 0);
+        _.reduce([1,2,3,4], function(memo, item) {
+          orderTraversed.push(item);
+          return memo;
+        }, 10);
 
         expect(orderTraversed).to.eql([1,2,3,4]);
       });
@@ -580,12 +522,12 @@
           }
         };
 
-        var total = [1,1,2].reduce(returnFalsy);
+        var total = _.reduce([1,1,2], returnFalsy);
         expect(total).to.equal(3);
       });
 
       it('should pass every item of the array into the iterator if a memo is passed in', function() {
-        var result = [1,2,3].myReduce(function(memo, item) {
+        var result = _.reduce([1,2,3], function(memo, item) {
           return memo - item;
         }, 10);
 
@@ -594,7 +536,7 @@
 
       it('should accept falsy values as a valid memo', function() {
         // Be careful how you check if a memo has been passed in
-        var result = [1,2,3].myReduce(function(memo, item) {
+        var result = _.reduce([1,2,3], function(memo, item) {
           return memo * item;
         }, 0);
 
@@ -602,7 +544,7 @@
       });
 
       it('should set memo to be the first item of the array if no memo is passed in', function() {
-        var result = [1,2,3].myReduce(function(memo) {
+        var result = _.reduce([1,2,3], function(memo) {
           return memo;
         });
 
@@ -611,7 +553,7 @@
 
 
       it('should pass the second item of the array into the iterator first if a memo is not passed in', function() {
-        var result = [3,2,1].myReduce(function(memo, item) {
+        var result = _.reduce([3,2,1], function(memo, item) {
           return memo - item;
         });
 
@@ -636,38 +578,4 @@
   }
 }());
 
-Array.prototype.myForEach = function(callback) {
-  	for (var i = 0; i < this.length; i++) {
-  		callback(this[i], i, this);
-	}
-};
 
-Array.prototype.myMap = function(callback) {
-    arr = [];
-    for (var i = 0; i < this.length; i++) {
-        arr.push(callback(this[i], i, this));
-    }
-    return arr;
-}
-
-Array.prototype.myFilter = function(callback, context) {
-	arr = [];
-	for (var i = 0; i < this.length; i++) {
-	    if (callback.call(context, this[i], i, this)) {
-	        arr.push(this[i]);
-	    }
-	}
-	return arr;
-};
-
-Array.prototype.myReduce = function(callback, initialVal) {
-    var accu = (initialVal === undefined) ? undefined : initialVal;
-    for (var i = 0; i < this.length; i++) {
-        if (accu !== undefined) {
-            accu = callback.call(undefined, accu, this[i], i, this);
-        } else {
-            accu = this[i];
-        }
-    }
-    return accu;
-};
