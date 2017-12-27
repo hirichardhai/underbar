@@ -109,6 +109,35 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
+    function unique(arr) {
+      var sortedArr = [];
+      for (var i = 0; i < arr.length; i++) {
+        if (sortedArr.indexOf(arr[i]) === -1) {
+          sortedArr.push(arr[i]);
+        }
+      }
+      return sortedArr;
+    }
+
+    function testIterator(array, isSorted, iterator) {
+      var sorted = _.map(array, iterator)
+      var tempArr = unique(sorted);
+      var output = [];
+      
+      for (var i = 0; i < tempArr.length; i++) {
+        if (_.indexOf(sorted, tempArr[i]) !== -1) {
+          output.push(array[i])
+        }
+      }
+      return output;
+    }
+
+    if (iterator === undefined) {
+      return unique(array);
+    } else {
+      return testIterator(array, isSorted, iterator);
+    }
+
   };
 
 
