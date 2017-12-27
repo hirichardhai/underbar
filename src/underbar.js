@@ -97,6 +97,14 @@
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
+    var arr = [];
+
+    _.each(collection, function(item) {
+      if (!test(item)) {
+        arr.push(item);
+      }
+    })
+    return arr;
   };
 
   // Produce a duplicate-free version of the array.
@@ -109,6 +117,13 @@
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
+    var arr = [];
+
+    for (var j = 0; j < collection.length; j++) {
+      arr.push(iterator(collection[j], j, collection));
+    }
+
+    return arr;
   };
 
   /*
