@@ -211,12 +211,25 @@ _.reduce = function(collection, iterator, accumulator) {
   _.contains = function(collection, target) {
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
-    return _.reduce(collection, function(wasFound, item) {
-      if (wasFound) {
-        return true;
+    if (Array.isArray(collection)) {
+      return _.reduce(collection, function(wasFound, item) {
+        if (wasFound) {
+          return true;
+        }
+        return item == target;
+      }, false);
+    } else if (!Array.isArray(collection)) {
+      var objValueArr = [];
+      for (var key in collection) {
+        objValueArr.push(collection[key]);
       }
-      return item === target;
-    }, false);
+      return _.reduce(objValueArr, function(wasFound, item) {
+        if (wasFound) {
+          return true;
+        }
+        return item == target;
+      }, false);
+    }
   };
 
 
