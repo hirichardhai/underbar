@@ -272,6 +272,13 @@ _.reduce = function(collection, iterator, accumulator) {
     }
   };
 
+  // better way to tackle _.some except the no callback part
+  /* _.some = function(collection, truthStatementFunction) { 
+    return !(_.every(collection, function(v) {
+        return !truthStatementFunction(v);
+    }));
+}
+
 
   /**
    * OBJECTS
@@ -292,6 +299,19 @@ _.reduce = function(collection, iterator, accumulator) {
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    if (arguments.length < 2) {
+      return obj;
+    };
+    for (var index = 1; index < arguments.length; index++) {
+      var source = arguments[index]
+      var keys = Object.keys(source)
+      var l = keys.length;
+
+      for (var i = 0; i < l; i++) {
+        obj[keys[i]] = source[keys[i]];
+      };
+    }
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
