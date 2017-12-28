@@ -305,9 +305,9 @@ _.reduce = function(collection, iterator, accumulator) {
     for (var index = 1; index < arguments.length; index++) {
       var source = arguments[index]
       var keys = Object.keys(source)
-      var l = keys.length;
+      var length = keys.length;
 
-      for (var i = 0; i < l; i++) {
+      for (var i = 0; i < length; i++) {
         obj[keys[i]] = source[keys[i]];
       };
     }
@@ -317,6 +317,21 @@ _.reduce = function(collection, iterator, accumulator) {
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    if (arguments.length < 2) {
+      return obj;
+    };
+    for (var index = 1; index < arguments.length; index++) {
+      var source = arguments[index]
+      var keys = Object.keys(source)
+      var length = keys.length;
+
+      for (var i = 0; i < length; i++) {
+        if (obj[keys[i]] === undefined) {
+        obj[keys[i]] = source[keys[i]];
+        }
+      };
+    }
+    return obj;
   };
 
 
