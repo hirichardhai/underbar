@@ -299,9 +299,6 @@ _.reduce = function(collection, iterator, accumulator) {
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
-    if (arguments.length < 2) {
-      return obj;
-    };
     for (var index = 1; index < arguments.length; index++) {
       var source = arguments[index]
       var keys = Object.keys(source)
@@ -317,9 +314,6 @@ _.reduce = function(collection, iterator, accumulator) {
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
-    if (arguments.length < 2) {
-      return obj;
-    };
     for (var index = 1; index < arguments.length; index++) {
       var source = arguments[index]
       var keys = Object.keys(source)
