@@ -402,9 +402,25 @@ _.reduce = function(collection, iterator, accumulator) {
   // TIP: This function's test suite will ask that you not modify the original
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
-  _.shuffle = function(array) {
-  };
 
+  // my method is not the optimal way for extremely large numbres, but I like it.
+  _.shuffle = function(array) {
+    var newArray = array.slice();
+    var output = [];
+    var generateRandomIndex = function(length) {
+      return Math.floor(Math.random() * length);
+    };
+    var size = array.length
+
+    while (output.length < array.length) {
+      var randomIndex = generateRandomIndex(newArray.length);
+      var indexToDelete = _.indexOf(newArray, newArray[randomIndex])
+      output.push(newArray[randomIndex]);
+      newArray.splice(indexToDelete, 1);
+    };
+    
+    return output;
+  };
 
   /**
    * ADVANCED
