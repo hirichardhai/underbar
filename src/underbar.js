@@ -386,11 +386,11 @@ _.reduce = function(collection, iterator, accumulator) {
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
-      return setTimeout(function() {
-        return func.apply(this, arguments)
+      var args = Array.prototype.slice.call(arguments,2);
+      return setTimeout(function(){
+          return func.apply(this, args);
       }, wait);
   };
-
 
   /**
    * ADVANCED COLLECTION OPERATIONS
